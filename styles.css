@@ -131,6 +131,41 @@ img {
   text-decoration: none;
 }
 
+/* ── Language picker ──────────────────────────────────────────────────────── */
+
+.lang-pick {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.lang-btn {
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tr-label);
+  cursor: pointer;
+  transition: color var(--dur-1) var(--ease), background var(--dur-1) var(--ease), border-color var(--dur-1) var(--ease);
+}
+
+.lang-btn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.lang-btn.active,
+.lang-btn[aria-pressed="true"] {
+  background: var(--ct-beacon);
+  border-color: var(--ct-beacon);
+  color: #fff;
+}
+
 .brand-icon {
   width: 44px;
   height: 44px;

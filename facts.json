@@ -43,6 +43,65 @@
     }
   ],
 
+  "hidden_facts": {
+    "_note": "Facts derived from the historic TenderNed database that don't surface at first glance. Update values by running the Supabase queries in the source field. Set confirmed=true once verified. These feed into new animation scenes — update scenes.jsx to add them.",
+    "facts": [
+      {
+        "id": "peak_publish_month_2024",
+        "label_nl": "Drukste publicatiemaand 2024",
+        "label_en": "Busiest publication month 2024",
+        "value": "Februari",
+        "value_en": "February",
+        "detail_nl": "De meeste aanbestedingen werden gepubliceerd in februari 2024 — een stille maand voor biedteams die onverwacht veel kansen herbergt.",
+        "detail_en": "More tenders were published in February 2024 than any other month — a quiet month for bid teams that hides a surprising volume of opportunity.",
+        "confirmed": true,
+        "supabase_query": "SELECT TO_CHAR(published_at, 'Month') AS month, COUNT(*) FROM tenders WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31' GROUP BY 1, EXTRACT(MONTH FROM published_at) ORDER BY EXTRACT(MONTH FROM published_at)"
+      },
+      {
+        "id": "peak_decision_month",
+        "label_nl": "Drukste beslissingsmaand",
+        "label_en": "Busiest decision month",
+        "value": "November",
+        "value_en": "November",
+        "detail_nl": "November is de maand met de meeste gunningen en deadlines in het TenderNed-archief — slim instarten in september geeft een beslissend voordeel.",
+        "detail_en": "November sees the most awards and deadlines in the TenderNed archive — starting smart in September gives a decisive edge.",
+        "confirmed": true,
+        "supabase_query": "SELECT TO_CHAR(deadline, 'Month') AS month, COUNT(*) FROM tenders WHERE deadline IS NOT NULL GROUP BY 1, EXTRACT(MONTH FROM deadline) ORDER BY EXTRACT(MONTH FROM deadline)"
+      },
+      {
+        "id": "fastest_growing_cpv_2025",
+        "label_nl": "Snelst groeiende CPV 2025",
+        "label_en": "Fastest growing CPV 2025",
+        "value": "TBD — run query",
+        "value_en": "TBD — run query",
+        "detail_nl": "De CPV-code met de sterkste groei in gepubliceerde aanbestedingen (2025 vs 2024). Vereist cpv_code kolom in de tenders tabel.",
+        "detail_en": "The CPV code with the steepest growth in published tenders (2025 vs 2024). Requires cpv_code column in the tenders table.",
+        "confirmed": false,
+        "supabase_query": "SELECT cpv_code, COUNT(*) FILTER (WHERE published_at >= '2025-01-01') AS n_2025, COUNT(*) FILTER (WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31') AS n_2024, ROUND(100.0 * COUNT(*) FILTER (WHERE published_at >= '2025-01-01') / NULLIF(COUNT(*) FILTER (WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31'), 0) - 100, 1) AS growth_pct FROM tenders WHERE cpv_code IS NOT NULL GROUP BY cpv_code HAVING COUNT(*) FILTER (WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31') > 5 ORDER BY growth_pct DESC LIMIT 10"
+      },
+      {
+        "id": "avg_days_to_deadline",
+        "label_nl": "Gemiddelde looptijd aanbesteding",
+        "label_en": "Average tender window",
+        "value": "TBD — run query",
+        "value_en": "TBD — run query",
+        "detail_nl": "Gemiddeld aantal dagen tussen publicatiedatum en deadline in het TenderNed-archief.",
+        "detail_en": "Average number of days between publication date and deadline in the TenderNed archive.",
+        "confirmed": false,
+        "supabase_query": "SELECT ROUND(AVG(deadline - published_at)) AS avg_days FROM tenders WHERE deadline IS NOT NULL AND published_at IS NOT NULL AND deadline > published_at"
+      },
+      {
+        "id": "sector_with_highest_avg_value",
+        "label_nl": "Sector met hoogste gemiddelde contractwaarde",
+        "label_en": "Sector with highest avg contract value",
+        "value": "TBD — run query",
+        "value_en": "TBD — run query",
+        "confirmed": false,
+        "supabase_query": "SELECT sector, ROUND(AVG(contract_value_eur)) AS avg_eur, COUNT(*) AS n FROM tenders WHERE contract_value_eur IS NOT NULL GROUP BY sector ORDER BY avg_eur DESC"
+      }
+    ]
+  },
+
   "animation_scenes": {
     "_note": "These numbers are hardcoded in scenes.jsx inside the Cosmic animation bundle. Editing this file updates the reference only — to change what the animation shows, edit scenes.jsx and rebuild the standalone HTML.",
     "mass": {

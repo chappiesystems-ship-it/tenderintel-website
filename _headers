@@ -12,3 +12,7 @@
 
 /app.js
   Cache-Control: no-cache
+
+/assets/*.svg
+  Content-Type: image/svg+xml
+  Cache-Control: public, max-age=86400

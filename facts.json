@@ -2,14 +2,15 @@
   "_meta": {
     "description": "CosmoTender facts template. Update live_stats from Supabase analysis to refresh the website stats bar. animation_scenes documents the numbers baked into the Cosmic animation — update them here for reference, then rebuild scenes.jsx to apply changes to the video.",
     "last_updated": "2026-05-17",
-    "updated_by": "manual"
+    "updated_by": "supabase-query",
+    "data_coverage": "2026-01-01 to 2026-05-15 (4 738 tenders)"
   },
 
   "live_stats": [
     {
       "id": "tenders_monitored",
       "label": "Tenders monitored",
-      "value": "4 578",
+      "value": "4 738",
       "unit": "YTD 2026",
       "color": "beacon"
     },
@@ -23,8 +24,8 @@
     {
       "id": "avg_contract_value",
       "label": "Avg contract value",
-      "value": "€ 1.4 M",
-      "unit": "from scored set",
+      "value": "€ 11.4 M",
+      "unit": "scored tenders",
       "color": "ocean"
     },
     {
@@ -37,67 +38,80 @@
     {
       "id": "tenders_per_week",
       "label": "New tenders / week",
-      "value": "~480",
-      "unit": "NL average",
+      "value": "~240",
+      "unit": "2026 avg",
       "color": "maybe"
     }
   ],
 
   "hidden_facts": {
-    "_note": "Facts derived from the historic TenderNed database that don't surface at first glance. Update values by running the Supabase queries in the source field. Set confirmed=true once verified. These feed into new animation scenes — update scenes.jsx to add them.",
+    "_note": "Facts derived from the live TenderNed database. Confirmed=true means verified from 4 738 rows (Jan–May 2026). Re-run the supabase_query field to refresh. These feed into new animation scenes — update scenes.jsx to add them.",
     "facts": [
       {
-        "id": "peak_publish_month_2024",
-        "label_nl": "Drukste publicatiemaand 2024",
-        "label_en": "Busiest publication month 2024",
-        "value": "Februari",
-        "value_en": "February",
-        "detail_nl": "De meeste aanbestedingen werden gepubliceerd in februari 2024 — een stille maand voor biedteams die onverwacht veel kansen herbergt.",
-        "detail_en": "More tenders were published in February 2024 than any other month — a quiet month for bid teams that hides a surprising volume of opportunity.",
+        "id": "peak_publish_month_2026",
+        "label_nl": "Drukste publicatiemaand 2026",
+        "label_en": "Busiest publication month 2026",
+        "value": "April",
+        "value_en": "April",
+        "value_n": 1796,
+        "detail_nl": "In april 2026 werden 1.796 aanbestedingen gepubliceerd — het hoogste maandvolume in het lopende jaar. Biedteams die in maart beginnen met monitoring pakken de meeste kansen.",
+        "detail_en": "April 2026 saw 1,796 published tenders — the highest monthly volume this year. Bid teams that start monitoring in March capture the most opportunities.",
         "confirmed": true,
-        "supabase_query": "SELECT TO_CHAR(published_at, 'Month') AS month, COUNT(*) FROM tenders WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31' GROUP BY 1, EXTRACT(MONTH FROM published_at) ORDER BY EXTRACT(MONTH FROM published_at)"
+        "supabase_query": "SELECT EXTRACT(MONTH FROM published_at) AS m, COUNT(*) FROM tenders WHERE published_at >= '2026-01-01' GROUP BY m ORDER BY COUNT(*) DESC LIMIT 1"
       },
       {
-        "id": "peak_decision_month",
-        "label_nl": "Drukste beslissingsmaand",
-        "label_en": "Busiest decision month",
-        "value": "November",
-        "value_en": "November",
-        "detail_nl": "November is de maand met de meeste gunningen en deadlines in het TenderNed-archief — slim instarten in september geeft een beslissend voordeel.",
-        "detail_en": "November sees the most awards and deadlines in the TenderNed archive — starting smart in September gives a decisive edge.",
+        "id": "peak_deadline_month_2026",
+        "label_nl": "Drukste deadlinemaand 2026",
+        "label_en": "Busiest deadline month 2026",
+        "value": "Mei",
+        "value_en": "May",
+        "value_n": 432,
+        "detail_nl": "Mei heeft de meeste aanbestedingsdeadlines in 2026 — slim instarten in maart geeft een beslissend voordeel bij de piekdruk.",
+        "detail_en": "May has the most tender deadlines in 2026 — starting smart in March gives a decisive edge during the peak crunch.",
         "confirmed": true,
-        "supabase_query": "SELECT TO_CHAR(deadline, 'Month') AS month, COUNT(*) FROM tenders WHERE deadline IS NOT NULL GROUP BY 1, EXTRACT(MONTH FROM deadline) ORDER BY EXTRACT(MONTH FROM deadline)"
+        "supabase_query": "SELECT EXTRACT(MONTH FROM deadline_at) AS m, COUNT(*) FROM tenders WHERE deadline_at IS NOT NULL GROUP BY m ORDER BY COUNT(*) DESC LIMIT 1"
       },
       {
         "id": "fastest_growing_cpv_2025",
         "label_nl": "Snelst groeiende CPV 2025",
         "label_en": "Fastest growing CPV 2025",
-        "value": "TBD — run query",
-        "value_en": "TBD — run query",
-        "detail_nl": "De CPV-code met de sterkste groei in gepubliceerde aanbestedingen (2025 vs 2024). Vereist cpv_code kolom in de tenders tabel.",
-        "detail_en": "The CPV code with the steepest growth in published tenders (2025 vs 2024). Requires cpv_code column in the tenders table.",
+        "value": "n.v.t. — geen CPV-kolom",
+        "value_en": "N/A — no CPV column yet",
+        "detail_nl": "De CPV-code kolom is nog niet beschikbaar in de tenders tabel. Voeg cpv_code toe aan de ingest pipeline om dit te activeren.",
+        "detail_en": "The CPV code column is not yet present in the tenders table. Add cpv_code to the ingest pipeline to enable this insight.",
         "confirmed": false,
-        "supabase_query": "SELECT cpv_code, COUNT(*) FILTER (WHERE published_at >= '2025-01-01') AS n_2025, COUNT(*) FILTER (WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31') AS n_2024, ROUND(100.0 * COUNT(*) FILTER (WHERE published_at >= '2025-01-01') / NULLIF(COUNT(*) FILTER (WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31'), 0) - 100, 1) AS growth_pct FROM tenders WHERE cpv_code IS NOT NULL GROUP BY cpv_code HAVING COUNT(*) FILTER (WHERE published_at BETWEEN '2024-01-01' AND '2024-12-31') > 5 ORDER BY growth_pct DESC LIMIT 10"
+        "supabase_query": "-- Requires cpv_code column. Add to ingest first."
       },
       {
         "id": "avg_days_to_deadline",
         "label_nl": "Gemiddelde looptijd aanbesteding",
         "label_en": "Average tender window",
-        "value": "TBD — run query",
-        "value_en": "TBD — run query",
-        "detail_nl": "Gemiddeld aantal dagen tussen publicatiedatum en deadline in het TenderNed-archief.",
-        "detail_en": "Average number of days between publication date and deadline in the TenderNed archive.",
-        "confirmed": false,
-        "supabase_query": "SELECT ROUND(AVG(deadline - published_at)) AS avg_days FROM tenders WHERE deadline IS NOT NULL AND published_at IS NOT NULL AND deadline > published_at"
+        "value": "104 dagen",
+        "value_en": "104 days",
+        "value_n": 1668,
+        "detail_nl": "Gemiddeld 104 dagen tussen publicatie en deadline (op basis van 1.668 aanbestedingen met bekende deadline). Wie pas na publicatie begint, verliest al een week.",
+        "detail_en": "Average 104 days between publication and deadline (based on 1,668 tenders with a known deadline). Waiting until after publication wastes a full week of runway.",
+        "confirmed": true,
+        "supabase_query": "SELECT ROUND(AVG(EXTRACT(EPOCH FROM (deadline_at - published_at)) / 86400)) AS avg_days FROM tenders WHERE deadline_at IS NOT NULL AND published_at IS NOT NULL AND deadline_at > published_at"
       },
       {
         "id": "sector_with_highest_avg_value",
         "label_nl": "Sector met hoogste gemiddelde contractwaarde",
         "label_en": "Sector with highest avg contract value",
-        "value": "TBD — run query",
-        "value_en": "TBD — run query",
-        "confirmed": false,
-        "supabase_query": "SELECT sector, ROUND(AVG(contract_value_eur)) AS avg_eur, COUNT(*) AS n FROM tenders WHERE contract_value_eur IS NOT NULL GROUP BY sector ORDER BY avg_eur DESC"
+        "value": "Zorg — gem. € 16,5 M",
+        "value_en": "Healthcare — avg € 16.5 M",
+        "value_n": 1546,
+        "detail_nl": "Zorgsector aanbestedingen hebben een gemiddelde geschatte waarde van € 16,5 M — bijna 4× die van schoonmaak (€ 4,5 M). De hoogste ticket, maar ook de langste procestijden.",
+        "detail_en": "Healthcare tenders average an estimated value of € 16.5 M — nearly 4× that of cleaning contracts (€ 4.5 M). Highest ticket size, but also the longest process timelines.",
+        "sector_ranking": [
+          { "sector": "zorg",        "avg_eur": 16453256, "n": 1546 },
+          { "sector": "ict",         "avg_eur": 13531526, "n": 344  },
+          { "sector": "beveiliging", "avg_eur": 6646066,  "n": 114  },
+          { "sector": "groen",       "avg_eur": 6134509,  "n": 412  },
+          { "sector": "schoonmaak",  "avg_eur": 4541994,  "n": 134  }
+        ],
+        "confirmed": true,
+        "supabase_query": "SELECT sector, ROUND(AVG(estimated_value_eur)) AS avg_eur, COUNT(*) AS n FROM tenders WHERE estimated_value_eur IS NOT NULL GROUP BY sector ORDER BY avg_eur DESC"
       }
     ]
   },

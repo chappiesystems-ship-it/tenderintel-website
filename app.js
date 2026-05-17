@@ -1,3 +1,33 @@
+// Hide the React Chrome overlays (brand mark, counter, dot, progress bar) inside the animation iframe
+(function () {
+  const frame = document.querySelector(".animation-frame");
+  if (!frame) return;
+  const CSS = `
+    /* top-left brand mark */
+    [style*="top: 36px"][style*="left: 48px"],
+    /* top-right scene counter */
+    [style*="top: 36px"][style*="right: 48px"],
+    /* bottom-left live dot */
+    [style*="bottom: 40px"][style*="left: 48px"],
+    /* bottom-right progress bar */
+    [style*="bottom: 40px"][style*="right: 48px"] {
+      display: none !important;
+    }
+  `;
+  function inject() {
+    try {
+      const doc = frame.contentDocument;
+      if (!doc || !doc.head) return;
+      const s = doc.createElement("style");
+      s.textContent = CSS;
+      doc.head.appendChild(s);
+    } catch (_) {}
+  }
+  frame.addEventListener("load", inject);
+  // Also try immediately in case already loaded (cached)
+  if (frame.contentDocument && frame.contentDocument.readyState === "complete") inject();
+})();
+
 // Live stats bar — populated from facts.json
 (async () => {
   const bar = document.getElementById("liveStatsBar");

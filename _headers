@@ -4,6 +4,11 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
+# Allow the animation to be embedded in an iframe on the same origin
+/Cosmic scale animation/*.html
+  X-Frame-Options: SAMEORIGIN
+  Cache-Control: public, max-age=3600
+
 /*.html
   Cache-Control: no-cache
 

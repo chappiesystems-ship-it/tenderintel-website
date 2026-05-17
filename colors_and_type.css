@@ -1,0 +1,357 @@
+/* =========================================================================
+   CosmoTender — Foundations
+   Dark-first cosmic palette. Two themes share the same semantic vars:
+
+     :root           → cosmic dark (default; cockpit, brand, marketing)
+     .theme-light    → calmer light (portal — opt-in)
+
+   Decision triad (GO / MAYBE / NOGO) stays sacred in both themes,
+   tinted brighter on dark, deeper on light.
+
+   Type: Roboto (uploaded brand font, served from /fonts) for sans;
+   JetBrains Mono via Google Fonts for mono labels and data.
+   ========================================================================= */
+
+/* ---------- Roboto (brand sans) ---------- */
+@font-face { font-family: "Roboto"; font-style: normal; font-weight: 100;
+  src: url("fonts/Roboto-Thin.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: italic; font-weight: 100;
+  src: url("fonts/Roboto-ThinItalic.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: normal; font-weight: 300;
+  src: url("fonts/Roboto-Light.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: italic; font-weight: 300;
+  src: url("fonts/Roboto-LightItalic.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: normal; font-weight: 400;
+  src: url("fonts/Roboto-Regular.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: italic; font-weight: 400;
+  src: url("fonts/Roboto-Italic.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: normal; font-weight: 500;
+  src: url("fonts/Roboto-Medium.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: italic; font-weight: 500;
+  src: url("fonts/Roboto-MediumItalic.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: normal; font-weight: 700;
+  src: url("fonts/Roboto-Bold.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: italic; font-weight: 700;
+  src: url("fonts/Roboto-BoldItalic.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: normal; font-weight: 900;
+  src: url("fonts/Roboto-Black.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto"; font-style: italic; font-weight: 900;
+  src: url("fonts/Roboto-BlackItalic.ttf") format("truetype"); font-display: swap; }
+
+/* Roboto Condensed — narrower variant for the cockpit's dense table headers,
+   wide-tracked mission-control labels, and any moment that wants the
+   "engineering / mission-control" feel beyond what regular Roboto gives. */
+@font-face { font-family: "Roboto Condensed"; font-style: normal; font-weight: 400;
+  src: url("fonts/Roboto-Condensed.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto Condensed"; font-style: italic; font-weight: 400;
+  src: url("fonts/Roboto-CondensedItalic.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto Condensed"; font-style: normal; font-weight: 700;
+  src: url("fonts/Roboto-BoldCondensed.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Roboto Condensed"; font-style: italic; font-weight: 700;
+  src: url("fonts/Roboto-BoldCondensedItalic.ttf") format("truetype"); font-display: swap; }
+
+/* JetBrains Mono — kept via Google Fonts (no brand-supplied file) */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+/* =========================================================================
+   :root  —  DARK / COSMIC (default)
+   ========================================================================= */
+:root {
+  /* ---------- Brand ---------------------------------------------------- */
+  --ct-ocean:        #3C6E9C;   /* legacy ocean — orbit rings, secondary */
+  --ct-ocean-ink:    #2A5379;
+  --ct-ocean-soft:   #7FA4C7;   /* light ocean — text accents on dark */
+  --ct-ocean-glow:   #DCE7F4;   /* near-white blue — headline accents */
+
+  --ct-beacon:       #00A2E8;   /* mascot visor blue — interactive / focus */
+  --ct-beacon-ink:   #0084BE;
+  --ct-beacon-glow:  #7FD0F3;
+
+  --ct-astro:        #FF7F00;   /* mascot orange — warmth, alerts, CTAs */
+  --ct-astro-ink:    #D96900;
+  --ct-astro-glow:   #FFB463;
+
+  /* ---------- Cosmic surfaces (dark stack) ----------------------------- */
+  --ct-void:         #081326;   /* deepest — sidebar, modals backdrop */
+  --ct-space:        #0B1B30;   /* page background */
+  --ct-nebula:       #122943;   /* panels, cards */
+  --ct-drift:        #1B344F;   /* row hover, raised elements */
+  --ct-horizon:      #1F3B5C;   /* 1px borders on dark */
+  --ct-horizon-2:    #2C4768;   /* emphasized borders */
+
+  /* ---------- Light surfaces (for .theme-light cascade) ---------------- */
+  --ct-starlight:    #F4F6FA;
+  --ct-paper:        #FFFFFF;
+  --ct-mist:         #EBEFF4;
+  --ct-rule:         #D6DDE5;
+  --ct-rule-2:       #BFC8D2;
+
+  /* ---------- Text on dark --------------------------------------------- */
+  --ct-star:         #E8EEF6;   /* primary text on dark */
+  --ct-cloud:        #B6C3D4;   /* secondary text */
+  --ct-asteroid:     #8FA0B6;   /* dim / mono labels */
+  --ct-comet:        #5A6A80;   /* placeholder / muted */
+
+  /* ---------- Text on light (light-mode reference) --------------------- */
+  --ct-ink:          #0F1A2A;
+  --ct-slate:        #38465A;
+  --ct-slate-dim:    #5E6B7C;
+  --ct-slate-mute:   #94A0AE;
+
+  /* ---------- Decision triad — sacred ---------------------------------- */
+  --ct-go:           #3FA56D;   /* slightly brighter on dark */
+  --ct-go-ink:       #1F7A4D;
+  --ct-go-soft:      rgba(63,165,109,.18);
+  --ct-maybe:        #D5A93A;
+  --ct-maybe-ink:    #8A6D1F;
+  --ct-maybe-soft:   rgba(213,169,58,.18);
+  --ct-nogo:         #C24A5C;
+  --ct-nogo-ink:     #A02234;
+  --ct-nogo-soft:    rgba(194,74,92,.18);
+
+  /* ---------- Semantic role tokens (use these in components) ----------- */
+  --bg:              var(--ct-space);
+  --bg-page-grad:    radial-gradient(120% 90% at 50% 110%, var(--ct-drift) 0%, var(--ct-space) 35%, var(--ct-void) 100%);
+  --bg-panel:        var(--ct-nebula);
+  --bg-raised:       var(--ct-drift);
+  --bg-mist:         var(--ct-drift);
+  --bg-hover:        var(--ct-horizon);
+  --bg-selected:     rgba(0,162,232,.10);
+  --bg-deep:         var(--ct-void);
+  --bg-deep-hover:   var(--ct-nebula);
+
+  --border:          var(--ct-horizon);
+  --border-strong:   var(--ct-horizon-2);
+  --border-on-deep:  var(--ct-horizon);
+
+  --text:            var(--ct-star);
+  --text-mid:        var(--ct-cloud);
+  --text-dim:        var(--ct-asteroid);
+  --text-mute:       var(--ct-comet);
+  --text-on-accent:  #FFFFFF;
+  --text-on-deep:    var(--ct-star);
+  --text-on-deep-dim:var(--ct-asteroid);
+
+  --accent:          var(--ct-beacon);
+  --accent-ink:      var(--ct-beacon-ink);
+  --accent-soft:     rgba(0,162,232,.14);
+
+  --warm:            var(--ct-astro);
+  --warm-ink:        var(--ct-astro-ink);
+  --warm-soft:       rgba(255,127,0,.16);
+
+  --go:              var(--ct-go);
+  --go-soft:         var(--ct-go-soft);
+  --maybe:           var(--ct-maybe);
+  --maybe-soft:      var(--ct-maybe-soft);
+  --nogo:            var(--ct-nogo);
+  --nogo-soft:       var(--ct-nogo-soft);
+
+  /* ---------- Type ----------------------------------------------------- */
+  --font-sans:      "Roboto", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-condensed: "Roboto Condensed", "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:      "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --fs-display: 96px;   --lh-display: 1.04;   --tr-display: -0.025em;
+  --fs-hero:    56px;   --lh-hero:    1.08;   --tr-hero:    -0.022em;
+  --fs-h1:      32px;   --lh-h1:      1.18;   --tr-h1:      -0.018em;
+  --fs-h2:      22px;   --lh-h2:      1.28;   --tr-h2:      -0.012em;
+  --fs-h3:      16px;   --lh-h3:      1.35;   --tr-h3:      -0.005em;
+  --fs-body:    14px;   --lh-body:    1.5;
+  --fs-sm:      13px;   --lh-sm:      1.45;
+  --fs-xs:      12px;   --lh-xs:      1.4;
+  --fs-label:   11px;   --lh-label:   1.2;
+  --fs-data:    13px;   --lh-data:    1.4;
+
+  --tr-label:    0.14em;   /* wide-tracked mono labels — mission-control */
+  --tr-eyebrow:  0.20em;   /* extra-wide for "FACT 01 · TITLE" eyebrows */
+
+  /* Spacing 4-point */
+  --sp-0: 0;   --sp-1: 2px;  --sp-2: 4px;  --sp-3: 8px;  --sp-4: 12px;
+  --sp-5: 16px;--sp-6: 20px; --sp-7: 24px; --sp-8: 32px; --sp-9: 40px;
+  --sp-10:56px;--sp-11:72px; --sp-12:96px;
+
+  /* Radii — architectural */
+  --r-xs: 2px; --r-sm: 4px; --r-md: 6px; --r-lg: 10px; --r-pill: 999px;
+
+  /* Elevation — cool-tinted; on dark, shadows mostly disappear so we use
+     glow rings instead for raised surfaces */
+  --shadow-1: 0 1px 0 rgba(8,19,38,.4), 0 2px 6px rgba(8,19,38,.35);
+  --shadow-2: 0 6px 14px rgba(8,19,38,.45), 0 2px 4px rgba(8,19,38,.4);
+  --shadow-3: 0 16px 32px rgba(8,19,38,.55), 0 8px 16px rgba(8,19,38,.5);
+  --shadow-focus: 0 0 0 3px rgba(0,162,232,.4);
+  --glow-beacon:  0 0 0 1px rgba(0,162,232,.4), 0 0 16px rgba(0,162,232,.35);
+  --glow-astro:   0 0 0 1px rgba(255,127,0,.45), 0 0 16px rgba(255,127,0,.35);
+  --shadow-inset: inset 0 1px 0 rgba(0,0,0,.2);
+
+  --ease:     cubic-bezier(.2, .7, .2, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --dur-1: 120ms; --dur-2: 200ms; --dur-3: 320ms;
+}
+
+/* =========================================================================
+   .theme-light  —  for the client portal and any quieter editorial surface
+   ========================================================================= */
+.theme-light {
+  --bg:              var(--ct-starlight);
+  --bg-page-grad:    var(--ct-starlight);
+  --bg-panel:        var(--ct-paper);
+  --bg-raised:       var(--ct-paper);
+  --bg-mist:         var(--ct-mist);
+  --bg-hover:        var(--ct-mist);
+  --bg-selected:     rgba(60,110,156,.10);
+  --bg-deep:         var(--ct-void);          /* dark surface still navy */
+  --bg-deep-hover:   var(--ct-nebula);
+
+  --border:          var(--ct-rule);
+  --border-strong:   var(--ct-rule-2);
+  --border-on-deep:  var(--ct-horizon);
+
+  --text:            var(--ct-ink);
+  --text-mid:        var(--ct-slate);
+  --text-dim:        var(--ct-slate-dim);
+  --text-mute:       var(--ct-slate-mute);
+
+  --accent:          var(--ct-ocean);
+  --accent-ink:      var(--ct-ocean-ink);
+  --accent-soft:     rgba(60,110,156,.14);
+
+  --warm:            var(--ct-astro-ink);     /* deeper orange for AA on light */
+  --warm-ink:        #B85700;
+  --warm-soft:       rgba(255,127,0,.10);
+
+  --go-soft:         rgba(31,122,77,.12);
+  --maybe-soft:      rgba(138,109,31,.14);
+  --nogo-soft:       rgba(160,34,52,.10);
+
+  --shadow-1: 0 1px 0 rgba(15,26,42,.04), 0 1px 2px rgba(15,26,42,.05);
+  --shadow-2: 0 2px 4px rgba(15,26,42,.06), 0 6px 14px rgba(15,26,42,.08);
+  --shadow-3: 0 8px 16px rgba(15,26,42,.08), 0 20px 40px rgba(15,26,42,.12);
+}
+
+/* =========================================================================
+   Base
+   ========================================================================= */
+html { color-scheme: dark light; }
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Semantic type styles */
+.ct-display, h1.display {
+  font-family: var(--font-sans);
+  font-size: var(--fs-display); line-height: var(--lh-display);
+  letter-spacing: var(--tr-display);
+  font-weight: 600; color: var(--text);
+}
+.ct-hero {
+  font-family: var(--font-sans);
+  font-size: var(--fs-hero); line-height: var(--lh-hero);
+  letter-spacing: var(--tr-hero);
+  font-weight: 600; color: var(--text);
+}
+.ct-h1, h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h1); line-height: var(--lh-h1);
+  letter-spacing: var(--tr-h1);
+  font-weight: 600; color: var(--text);
+}
+.ct-h2, h2 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h2); line-height: var(--lh-h2);
+  letter-spacing: var(--tr-h2);
+  font-weight: 600; color: var(--text);
+}
+.ct-h3, h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3); line-height: var(--lh-h3);
+  letter-spacing: var(--tr-h3);
+  font-weight: 600; color: var(--text);
+}
+.ct-body, p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--text); }
+.ct-sm     { font-size: var(--fs-sm);   line-height: var(--lh-sm);   color: var(--text-mid); }
+.ct-xs     { font-size: var(--fs-xs);   line-height: var(--lh-xs);   color: var(--text-dim); }
+
+.ct-mono, code, kbd, samp {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+/* "FACT 01 · TITLE" eyebrow — extra-wide tracking */
+.ct-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label); line-height: var(--lh-label);
+  text-transform: uppercase; letter-spacing: var(--tr-eyebrow);
+  font-weight: 500; color: var(--text-dim);
+}
+/* Mission-control label — wider than default mono caps */
+.ct-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label); line-height: var(--lh-label);
+  text-transform: uppercase; letter-spacing: var(--tr-label);
+  font-weight: 500; color: var(--text-dim);
+}
+.ct-data {
+  font-family: var(--font-mono);
+  font-size: var(--fs-data); line-height: var(--lh-data);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.ct-id {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-mid);
+  letter-spacing: 0.01em;
+}
+
+/* Italic-emphasis is part of the voice (sparingly) */
+em { font-style: italic; color: var(--ct-ocean-soft); }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-ink); text-decoration: underline; }
+
+:where(button, a, input, select, textarea, [role="button"], [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-radius: var(--r-sm);
+}
+
+::selection { background: var(--accent-soft); color: var(--text); }
+
+/* Beacon pulse — the live-sync dot, mission-control vibe */
+@keyframes ct-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+@keyframes ct-glow {
+  0%, 100% { box-shadow: 0 0 6px currentColor; }
+  50%      { box-shadow: 0 0 14px currentColor; }
+}
+/* Backwards-compat alias (cockpit code still references tw-pulse) */
+@keyframes tw-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* Subtle starfield watermark — apply to a container to give cosmic depth */
+.ct-starfield {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(232,238,246,.55), transparent 50%),
+    radial-gradient(1px 1px at 87% 24%, rgba(232,238,246,.45), transparent 50%),
+    radial-gradient(1.2px 1.2px at 62% 8%,  rgba(232,238,246,.5),  transparent 50%),
+    radial-gradient(1px 1px at 33% 72%, rgba(232,238,246,.45), transparent 50%),
+    radial-gradient(1px 1px at 78% 88%, rgba(232,238,246,.5),  transparent 50%),
+    radial-gradient(0.8px 0.8px at 8% 55%, rgba(232,238,246,.45), transparent 50%),
+    radial-gradient(1px 1px at 53% 42%, rgba(232,238,246,.3),  transparent 50%),
+    radial-gradient(0.8px 0.8px at 23% 90%, rgba(232,238,246,.5), transparent 50%);
+}
+
+/* Beacon ring — apply to interactive icons / dots that should look alive */
+.ct-beacon-ring {
+  box-shadow: 0 0 0 1px rgba(0,162,232,.5), 0 0 12px rgba(0,162,232,.6);
+}

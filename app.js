@@ -1,3 +1,24 @@
+// Live stats bar — populated from facts.json
+(async () => {
+  const bar = document.getElementById("liveStatsBar");
+  if (!bar) return;
+  try {
+    const res = await fetch("facts.json");
+    if (!res.ok) return;
+    const data = await res.json();
+    const stats = data.live_stats || [];
+    bar.innerHTML = stats.map((s) => `
+      <div class="stat-chip">
+        <span class="stat-value color-${s.color}">${s.value}</span>
+        <span class="stat-label">${s.label}</span>
+        <span class="stat-unit">${s.unit}</span>
+      </div>
+    `).join("");
+  } catch (_) {
+    bar.style.display = "none";
+  }
+})();
+
 const form = document.getElementById("waitlistForm");
 
 if (form) {

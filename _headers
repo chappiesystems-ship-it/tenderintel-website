@@ -16,3 +16,6 @@
 /assets/*.svg
   Content-Type: image/svg+xml
   Cache-Control: public, max-age=86400
+
+/facts.json
+  Cache-Control: no-cache

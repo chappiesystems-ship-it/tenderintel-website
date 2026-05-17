@@ -1,0 +1,80 @@
+{
+  "_meta": {
+    "description": "CosmoTender facts template. Update live_stats from Supabase analysis to refresh the website stats bar. animation_scenes documents the numbers baked into the Cosmic animation — update them here for reference, then rebuild scenes.jsx to apply changes to the video.",
+    "last_updated": "2026-05-17",
+    "updated_by": "manual"
+  },
+
+  "live_stats": [
+    {
+      "id": "tenders_monitored",
+      "label": "Tenders monitored",
+      "value": "4 578",
+      "unit": "YTD 2026",
+      "color": "beacon"
+    },
+    {
+      "id": "go_opportunities",
+      "label": "GO this week",
+      "value": "12",
+      "unit": "opportunities",
+      "color": "go"
+    },
+    {
+      "id": "avg_contract_value",
+      "label": "Avg contract value",
+      "value": "€ 1.4 M",
+      "unit": "from scored set",
+      "color": "ocean"
+    },
+    {
+      "id": "sectors_tracked",
+      "label": "Sectors tracked",
+      "value": "5",
+      "unit": "active",
+      "color": "ocean"
+    },
+    {
+      "id": "tenders_per_week",
+      "label": "New tenders / week",
+      "value": "~480",
+      "unit": "NL average",
+      "color": "maybe"
+    }
+  ],
+
+  "animation_scenes": {
+    "_note": "These numbers are hardcoded in scenes.jsx inside the Cosmic animation bundle. Editing this file updates the reference only — to change what the animation shows, edit scenes.jsx and rebuild the standalone HTML.",
+    "mass": {
+      "eu_procurement_eur_trillion": 2.0,
+      "nl_procurement_eur_billion": 85,
+      "nl_gdp_share_percent": 14,
+      "sub_markets": [
+        { "name": "Defense", "eur_billion": 240 },
+        { "name": "Health",  "eur_billion": 310 },
+        { "name": "Infra",   "eur_billion": 180 }
+      ]
+    },
+    "velocity": {
+      "tenders_per_year": 25000,
+      "minutes_between_tenders": 21,
+      "hours_to_read_headlines_per_year": 416
+    },
+    "odds": {
+      "win_rate_percent": 20,
+      "bids_per_win": 5
+    },
+    "burn_time": {
+      "hours_min": 80,
+      "hours_max": 400,
+      "qualify_share_percent": 70,
+      "write_share_percent": 25,
+      "review_share_percent": 5
+    },
+    "deadline": {
+      "eu_minimum_days": 35,
+      "median_bidder_start_day": 28,
+      "early_bidder_share_percent": 5
+    }
+  }
+}

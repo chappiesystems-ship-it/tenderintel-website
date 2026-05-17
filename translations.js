@@ -3,7 +3,7 @@ const TRANSLATIONS = {
   en: {
     "nav.brand_line":        "AI-powered tender intelligence for Dutch public procurement",
     "hero.eyebrow":          "AI tender intelligence for Dutch public procurement",
-    "hero.h1":               "Find the tenders worth pursuing — without reading every dossier.",
+    "hero.h1":               "Find the tenders worth pursuing, without reading every dossier.",
     "hero.subtitle":         "CosmoTender monitors TenderNed continuously, scores each opportunity, and surfaces a clear GO / MAYBE / NOGO recommendation so your team can move fast and focus on the right work.",
     "hero.cta_primary":      "Join the waitlist",
     "hero.cta_secondary":    "How it works",
